@@ -48,7 +48,6 @@ public class App {
         int[]       redTrue =         { 0, 51, 102, 153, 204, 255 };
         int[]       greenTrue =       { 0, 36, 73, 109, 146, 182, 219, 255 };
         int[]       blueTrue =        { 0, 64, 128, 192, 255 };
-        ArrayUtils.contains(redTrue, 2);
 
     for(int num = 1; num <= counter; num++) {
         File file = new File(input);
@@ -85,6 +84,19 @@ public class App {
                 String hexR = Integer.toHexString(r);
                 String hexB = Integer.toHexString(b);
                 String hexG = Integer.toHexString(g);
+                if (!ArrayUtils.contains(redTrue, r)) {
+                    int dist = 0;
+                    int cnum = 0;
+                    int abs = 0;
+                    int perc = 0;
+                    for (int i = 0; i < redTrue.length; i++) {
+                        abs = redTrue[i]-r;
+                        if (abs>dist&&abs>0) {
+                            cnum = redTrue[i];
+                            if(cnum!=0&&cnum<r) perc = redTrue[i+1]-cnum;  
+                        }
+                    }
+                }
                 String color = "0x"+hexR+hexG+hexB;
                 if ((r+g+b)!=0)Sline += String.format("draw(%s,%s,%s) ", color, x+1, y+1);
             }
