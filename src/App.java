@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 public class App {
 
     static int extractInt(String s) {
@@ -39,6 +41,14 @@ public class App {
         boolean toggle = true;
         int counter = 1;
         String fileName = null;
+        String[]    hexRedTrue =   { "00", "33", "66", "99", "CC", "FF" };
+        String[]    hexGreenTrue = { "00", "24", "49", "6D", "92", "B6", "DB", "FF" };
+        String[]    hexBlueTrue =  { "00", "40", "80", "C0", "FF" };
+
+        int[]       redTrue =         { 0, 51, 102, 153, 204, 255 };
+        int[]       greenTrue =       { 0, 36, 73, 109, 146, 182, 219, 255 };
+        int[]       blueTrue =        { 0, 64, 128, 192, 255 };
+        ArrayUtils.contains(redTrue, 2);
 
     for(int num = 1; num <= counter; num++) {
         File file = new File(input);
