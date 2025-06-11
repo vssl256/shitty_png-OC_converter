@@ -8,12 +8,9 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.lang3.ArrayUtils;
 
 public class App {
 
@@ -31,6 +28,7 @@ public class App {
         String input = sc.nextLine();
         System.out.println("Specify output folder (leave it blank, if you want to save it into the same folder as this converter)");
         output = sc.nextLine();
+        sc.close();
         if (output.isEmpty()) output = "out.txt";
         //String currentDir = System.getProperty("user.dir");
         File outFile = new File(output);
@@ -41,14 +39,14 @@ public class App {
         boolean toggle = true;
         int counter = 1;
         String fileName = null;
-        String[]    hexRedTrue =   { "00", "33", "66", "99", "CC", "FF" };
-        String[]    hexGreenTrue = { "00", "24", "49", "6D", "92", "B6", "DB", "FF" };
-        String[]    hexBlueTrue =  { "00", "40", "80", "C0", "FF" };
 
-        int[]       redTrue =         { 0, 51, 102, 153, 204, 255 };
-        int[]       greenTrue =       { 0, 36, 73, 109, 146, 182, 219, 255 };
-        int[]       blueTrue =        { 0, 64, 128, 192, 255 };
-
+        //String[]    hexRedTrue =   { "00", "33", "66", "99", "CC", "FF" };
+        //String[]    hexGreenTrue = { "00", "24", "49", "6D", "92", "B6", "DB", "FF" };
+        //String[]    hexBlueTrue =  { "00", "40", "80", "C0", "FF" };
+        //int[]       redTrue =         { 0, 51, 102, 153, 204, 255 };
+        //int[]       greenTrue =       { 0, 36, 73, 109, 146, 182, 219, 255 };
+        //int[]       blueTrue =        { 0, 64, 128, 192, 255 };
+//
     for(int num = 1; num <= counter; num++) {
         File file = new File(input);
         if (!input.contains(".png")&&toggle) {
@@ -78,30 +76,21 @@ public class App {
         for(int y = 0; y < raster.getHeight(); y++) { 
             for (int x = 0; x < raster.getWidth(); x++) {
                 raster.getPixel(x, y, pixels);
-                int r = pixels[0];
-                int g = pixels[1];
-                int b = pixels[2];
-                String hexR = Integer.toHexString(r);
-                String hexB = Integer.toHexString(b);
-                String hexG = Integer.toHexString(g);
-                if (!ArrayUtils.contains(redTrue, r)) {
-                    int dist = 0;
-                    int cnum = 0;
-                    int abs = 0;
-                    int perc = 0;
-                    for (int i = 0; i < redTrue.length; i++) {
-                        abs = redTrue[i]-r;
-                        if (abs>dist&&abs>0) {
-                            cnum = redTrue[i];
-                            if(cnum!=0&&cnum<r) perc = redTrue[i+1]-cnum;  
-                        }
-                    }
-                }
-                String color = "0x"+hexR+hexG+hexB;
-                if ((r+g+b)!=0)Sline += String.format("draw(%s,%s,%s) ", color, x+1, y+1);
+                int red = pixels[0];
+                int green = pixels[1];
+                int blue = pixels[2];
+                int hexBred = red;
+                int hexBgreen = green;
+                int hexBblue = blue;
+
+        String background = "0x"+String.format("%02X",hexBred)+String.format("%02X",hexBgreen)+String.format("%02X",hexBblue);
+
+                if ((red+green+blue)!=0)Sline += String.format("draw(%s,%s,%s) ", background, x+1, y+1);
             }
         }
-        List<String> line = Arrays.asList(Sline+"\nos.sleep(f)\nclear()");
+        String str = "";
+        if (isAnime) str = "clear()";
+        List<String> line = Arrays.asList(Sline+"\nos.sleep(f)\n"+str);
         Files.write(out,line,StandardOpenOption.APPEND);
         //}
     }
