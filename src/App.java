@@ -72,7 +72,7 @@ public class App {
             img = ImageIO.read(tfile);
         };
         Raster raster = img.getData();
-        int[] pixels = new int[3];
+        int[] pixels = new int[4];
         for(int y = 0; y < raster.getHeight(); y++) { 
             for (int x = 0; x < raster.getWidth(); x++) {
                 raster.getPixel(x, y, pixels);
